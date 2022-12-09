@@ -8,19 +8,20 @@ Requirements:
 
 ## Objectif du TP : 
 
-Ce TP a pour objectif de mettre en oeuvre les notions du cours par la création d'en environnement numérique représentant 
-une partie de votre environnement physique proche. Cet environnement physique étant unique et partagé, 
+Ce TP a pour objectif de mettre en oeuvre les notions du cours par la création d'en environnement numérique simplifié, 
+représentant votre environnement physique proche. Cet environnement physique étant unique et partagé, 
 son pendant numérique le sera également, et il sera construit conjointement avec vos camarades. 
 
 Dans une première partie, vous construirez en collaboration cet environnement, sur la plateforme Thingin'the future, 
-la plateforme de recherche d'Orange dédiée aux jumeaux numériques et au web des objets. La construction de l'environnement inclue 
-des objets connectés, ensemble composés des devices android présents dans la salle, ainsi que des autres objets 
-IoT à votre disposition. Des scripts python vous sont fournis dans ce TP pour faciliter la mise en oeuvre des différentes
-étapes de création et mise à jour des objets. En particulier, les scripts incluent les éléments nécessaires pour 
-se connecter à la plateforme, constituer les données, et effectuer des requêtes de base. 
-Vous devrez cependant éditer ces scripts / données pour ajouter des éléments manquants. 
+la plateforme de recherche d'Orange dédiée aux jumeaux numériques et au web des objets. La construction de 
+l'environnement inclue des objets connectés, ensemble composés des devices android présents dans la salle, 
+ainsi que des autres objets IoT à votre disposition. Des scripts python vous sont fournis dans ce TP pour faciliter 
+la mise en oeuvre des différentes étapes de création et mise à jour des objets. En particulier, 
+les scripts incluent les éléments nécessaires pour se connecter à la plateforme, constituer les données, 
+et effectuer des requêtes de base. Vous devrez cependant éditer ces scripts / données pour ajouter des éléments 
+manquants. 
 
-La description de l'environnement est, dans cette première partie, fixée par un schéma de données simplifié. 
+La description de l'environnement est fixée par un schéma de données. 
 Ce schéma de données peut être vu comme un diagramme de classes simplifié, mais gardez en tête qu'il représente bien 
  **le graphe des objets de l'environnement**. 
 
@@ -30,13 +31,13 @@ la fin de cette partie.
 ![diagramme](images/diagrammeClasseSimplifieInsa.png)
 
 
-Dans la deuxième partie du TP, nous explorerons les capacités de recherche offertes par notre modélisation graphe, 
-et étendrons la description de notre environnement à des concepts issus du web sémantique.
+Dans la deuxième partie du TP, nous utiliserons les capacités de recherche offertes par notre modélisation graphe 
+notre schéma, et étendrons la description de notre environnement à des concepts issus du web sémantique.
 
 
 #Mise en place:
 
-- installer l'apk "IP Webcam" sur votre device android
+- installer l'apk "IP Webcam" sur votre device android (à partir du store)
 - activer les capteurs dans l'appli, accepter les demandes d'autorisations. Définir un mot de passe si souhaité
 - télécharger ce dépôt. Il contient : 
   - des données préconstruites et des données à compléter 
@@ -66,17 +67,23 @@ et étendrons la description de notre environnement à des concepts issus du web
 - Récupérer l'ip de votre device android. Pour la récupérer vous pouvez simplement lancer le serveur IP webcam qui vous l'affiche à l'écran.
 - Sur votre ordinateur, se connecter à https://tech.di.thinginthefuture.com. Les credentials à utiliser sont : 
   - Email : ```insa-stu@insa.com```
-  - Password : *******
+  - Password : ******* _fourni en TP_
   
-Vous devriez arriver sur cette page : 
-![config](images/home_thingin.PNG)
+Vous devriez arriver sur cette page :
+![home](images/home_thingin.PNG)
 - Récupérer son token : onglet Develop -> Get My Thing in token -> Copy to Clipboard
 
-![config](images/develop_thingin.png)
-![config](images/token_thingin.PNG)
+![develop](images/develop_thingin.png)
+![token](images/token_thingin.PNG)
 
 - Lancer le serveur android ipcam sur votre device. Si nécessaire changer la résolution vidéo et le login/mot de passe. Si pas de login mot de passe dans l'application, laissez les arguments vides ("") en lançant les scripts
-- Tester l'environnement : exécuter le script ```torch_test.py``` en utilisant les arguments correspondants à votre installation. Exemple : ``` python3 torch_test.py  "Bearer 12345" "http://www.example.com/insa/" "thomas_hassan" "192.168.1.18" "Test" "Test" "ON" ```
+Vous devriez pouvoir accéder à votre serveur via votre navigateur à l'adresse : _https://ip:8080/_
+![server](images/server.PNG)
+Et voir le graphe des capteurs ci-dessous à l'adresse _https://ip:8080/sensors.html_ 
+![sensors](images/sensors_ipcam.PNG)
+La liste des capteurs disponible varie en fonction du device utilisé. 
+
+- Tester votre environnement python : exécuter le script ```torch_test.py``` en utilisant les arguments correspondants à votre installation. Exemple : ``` python3 torch_test.py  "Bearer 12345" "http://www.example.com/insa/" "thomas_hassan" "192.168.1.18" "Test" "Test" "ON" ```
 - se (re)connecter à la plateforme ThingIn avec les credentials fournis pour vérifier vos données uploadées (et celles des autres étudiants)
 - Se familiariser le portail et les différentes vues (graph2D / graph3D / Map / Raw) 
   - Pour ce faire nous allons requêter notre **domaine**, http://www.insa-tp-2022.com/, qui va stocker l'environnement partagé 
@@ -84,7 +91,7 @@ Vous devriez arriver sur cette page :
     Onglet Explore -> Explore ThingIn Database -> Sélectionner la requête "INSA TP 2022" dans le menu déroulant (cliquer au préalable sur "only my requests" pour filtrer plus rapidement): 
 
 
-![config](images/request_INSA.PNG)
+![request](images/request_INSA.PNG)
 
 Cela affichera la requête ci-dessous que vous pouvez exécuter directement (requête de type POST), cliquez sur ou get results pour afficher les données.
   ```json
@@ -180,22 +187,25 @@ On affiner la requête avec un filtre sur ses propriétés, par exemple en préc
 }
 ```
 
-- A l'aide de l'exemple ci-dessus et du et du [wiki](https://wiki.thinginthefuture.com/en/public/CypherForThinginQuery), construisez une requête pour retrouver des objets en définissant un filtre sur leur nom ou leur description.
+- A l'aide de l'exemple ci-dessus et du [wiki](https://wiki.thinginthefuture.com/en/public/CypherForThinginQuery), construisez une requête pour retrouver des objets en définissant un filtre sur leur nom ou leur description.
 
 ## Mise à jour des données de capteur en temps réel
 - Retrouver les endpoints de l’API android ipcam dans les propriétés des nœuds correspondants aux différents capteurs à travers l’interface ThingIn. Pour afficher les propriétés d'un noeud il suffit de cliquer dessus
 - Lancer le script de mise à jour des données dans thingin, ```main.py```, qui accède à l'API du device, récupère les données et accède à l'API de thingin pour mettre à jour les noeuds précédemment créés de façon continue (environ toutes les 5 secondes)
 - Vérifier la mise à jour des données dans thingin via la visualisation. Vous pouvez rafraichir le résultat de la requête via l'interface web (bouton 'Refresh result')
 
-![config](images/graph_valeur.PNG)
+![valeur](images/graph_valeur.PNG)
 
 - A l'aide des exemples de requêtes précédents et du [wiki](https://wiki.thinginthefuture.com/en/public/CypherForThinginQuery), construisez désormais les requêtes suivantes : 
     - Retrouver uniquement votre téléphone à partir d'un de ses identifiants unique (iri ou uuid)
     - Idem mais retrouvez également **via ses relations** tous ses capteurs
-    - Retrouver les téléphones dont le ```Capteur``` de luminosité a une ```valeur``` inférieure à X 
+    - Retrouver les téléphones dont le ```Capteur``` de luminosité a une ```valeur``` supérieure à 1000 (très exposés à la lumière)
     - Retrouver le capteur le plus illuminé de deux téléphones différents
 
 - Compléter les données pour le device IPcam, en ajoutant un noeud de type ```Capteur``` et une ```propriété``` pour décrire le **status** actuel de la torche (on/off). Pour créer le noeud, on peut directement utiliser l'API de thingin sans éditer le code (montré pendant le TP). Pour accéder à l'état de la torche et faire sa mise jour temps réel dans thingin, les fichiers ```thingin_requests.py``` et ```main.py``` doivent être édités : 
         - Définir une nouvelle fonction ```put_torch_status_thingin``` dans ```thinin_requests.py```, en prenant exemple sur les fonctions existantes (motion et light)
         - Utiliser la fonction précédemment créée dans ```main.py```, dans la fonction ```update_data(cam)```
 - Vérifier de nouveau la mise à jour des données dans thingin via la visualisation (relancer le script main.py)
+
+- A l'aide de vos connaissances, proposez une/des solutions pour améliorer notre modélisation, notamment en tirant partie 
+de modèles sémantiques (ontologies)
