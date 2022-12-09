@@ -38,11 +38,13 @@ notre schéma, et étendrons la description de notre environnement à des concep
 #Mise en place:
 
 - installer l'apk "IP Webcam" sur votre device android (à partir du store)
+![ip_webcam](images/ip_webcam.PNG)
+
 - activer les capteurs dans l'appli, accepter les demandes d'autorisations. Définir un mot de passe si souhaité
 - télécharger ce dépôt. Il contient : 
   - des données préconstruites et des données à compléter 
   - des scripts python d'update des données d'ipcam vers thingin (état de la torche, valeur du capteur de lumière...) 
-- mettre en place un environnement python fonctionnel avec les dépendances du dépôt, où $PROJECT_FOLDER est le chemin d'accès au dossier pydroid-ipcam : 
+- mettre en place un environnement python fonctionnel avec les dépendances du dépôt (cf. ```requirements.txt```), où $PROJECT_FOLDER est le chemin d'accès au dossier pydroid-ipcam : 
     - ``` export PYTHONPATH=PYTHONPATH:$PROJECT_FOLDER/ , ou commande équivalente windows ```
     - ``` cd $PROJECT_FOLDER/thingin ```
     - Tous les scripts python3 utilisés dans le TP ci-dessous peuvent être lancés depuis un IDE ou un interpréteur avec les arguments suivants (**ordre des arguments et syntaxe à respecter**): 
@@ -70,11 +72,14 @@ notre schéma, et étendrons la description de notre environnement à des concep
   - Password : ******* _fourni en TP_
   
 Vous devriez arriver sur cette page :
-![home](images/home_thingin.PNG)
+
+![home](images/home_thingin.png)
+ 
 - Récupérer son token : onglet Develop -> Get My Thing in token -> Copy to Clipboard
 
 ![develop](images/develop_thingin.png)
-![token](images/token_thingin.PNG)
+
+![token](images/token_thingin.png)
 
 - Lancer le serveur android ipcam sur votre device. Si nécessaire changer la résolution vidéo et le login/mot de passe. Si pas de login mot de passe dans l'application, laissez les arguments vides ("") en lançant les scripts
 Vous devriez pouvoir accéder à votre serveur via votre navigateur à l'adresse : _https://ip:8080/_
